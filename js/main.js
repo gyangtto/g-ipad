@@ -284,3 +284,12 @@ navigationsEl.append(mapEl);
 const thisYearEl = document.querySelector('span.this-year');
 thisYearEl.textContet = new Date().getFullYear;
 // 생성자 함수 호출
+
+// 푸터 내비게이션 맵 아코디언
+const mapEls = [...document.querySelectorAll('footer .navigations .map')]
+mapEls.forEach(el => {
+  const h3El = el.querySelector('h3')
+  h3El.addEventListener('click', () => {
+    el.classList.toggle('active')
+  })
+})
