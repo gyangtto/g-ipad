@@ -36,7 +36,7 @@
   <!-- main.css -->
   <link rel="stylesheet" href="./css/main.css">
   <!-- main.js -->
-  <script defer type="module" src="./js/main.js"></script>
+  <script defer type ="module" src="./js/main.js"></script>
   <!-- 모듈화된 자바스크립트 파일(import)을 HTML에서 불러오려면 type="module" 값 꼭 작성 필요 -->
 </head>
 
@@ -45,6 +45,16 @@
     <div class="inner">
       <!-- GNB -->
       <ul class="menu">
+        <li class="menu-starter">
+          <!-- 구조적으로 만드는거라 href 속성 값 필요 없음 -->
+          <a>
+            <!-- div요소를 하나의 아니큰으로, 2개의 내부 span 요소로 모양을 만들려고 함 -->
+            <div>
+              <span></span>
+              <span></span>
+            </div>
+          </a>
+        </li>
         <li class="apple-logo"><a href="javascript:void(0)">Apple</a></li>
         <li><a href="javascript:void(0)">스토어</a></li>
         <li><a href="javascript:void(0)">Mac</a></li>
@@ -86,6 +96,7 @@
             <div class="search-icon"></div>
             <div class="search-closer"></div>
           </div>
+          <div class="search-canceler">취소</div>
           <!-- 검색어 자동 입력 영역  -->
           <div class="autocompletes">
             <h2>빠른 링크</h2>
@@ -99,6 +110,21 @@
           </div>
         </div>
       </div>
+<!-- 모바일 모드에서만 보이는 메뉴 -->
+      <div class="clone-menu">
+        <ul>
+          <li><a href="javascript:void(0)">스토어</a></li>
+          <li><a href="javascript:void(0)">Mac</a></li>
+          <li><a href="javascript:void(0)">iPad</a></li>
+          <li><a href="javascript:void(0)">iPhone</a></li>
+          <li><a href="javascript:void(0)">Watch</a></li>
+          <li><a href="javascript:void(0)">AirPods</a></li>
+          <li><a href="javascript:void(0)">TV 및 홈</a></li>
+          <li><a href="javascript:void(0)">Apple 독점 제공</a></li>
+          <li><a href="javascript:void(0)">액세서리</a></li>
+          <li><a href="javascript:void(0)">고객지원</a></li>
+        </ul>
+      </div>
       <!-- 검색바 끝 -->
     </div>
   </header>
@@ -110,7 +136,7 @@
       <ul class="menu">
         <li class="active"><a href="javascript:void(0)">개요</a></li>
         <li><a href="javascript:void(0)">iPad를 선택하는 이유</a></li>
-        <li><a href="javascript:void(0)">제품사양</a></li>
+        <li><a href="javascript:void(0)">제품 사양</a></li>
       </ul>
       <button class="btn">구입하기</button>
     </div>
@@ -120,7 +146,7 @@
     <!-- Hero -->
     <section class="hero">
       <div class="inner">
-        <h1 class="bgtext">iPad</h1>
+        <h2 class="bgtext">iPad</h2>
         <div class="figures">
           <figure>
             <img src="./images/hero_ipad.jpg" alt="iPad와 Smart Keyboard 및 Apple Penscil" />
@@ -131,7 +157,7 @@
             </figcaption>
           </figure>
         </div>
-        <h2 class="bgtext">매사를 더욱 쉽게</h2>
+        <h3 class="bgtext">매사를 더욱 쉽게</h3>
         <p class="pricing">
           &#8361;449,000부터
         </p>
@@ -151,7 +177,7 @@
     <section class="power">
       <div class="inner">
         <div class="multiple-apps">
-          <h1 class="bgtext">거침없는 일 처리 성능</h1>
+          <h3 class="bgtext">거침없는 일 처리 성능</h3>
           <div class="figures">
             <figure>
               <img src="./images/power_multiple_apps.png" alt="Keynote 마크업과 메세지가 함께 표시된 Split View" />
@@ -222,7 +248,7 @@
     <section class="display">
       <div class="inner">
         <div class="notes">
-          <h1 class="bgtext">빛나는 아이디어에 걸맞는 디스플레이</h1>
+          <h2 class="bgtext">빛나는 아이디어에 걸맞는 디스플레이</h2>
           <div class="figures">
             <figure>
               <img src="./images/display_notes.jpg" alt="Ipad의 Goodnotes 5 앱에서 편집 중인 손글씨 필기" />
@@ -260,7 +286,7 @@
     <section class="camera">
       <div class="inner">
         <div class="stage">
-          <h1 class="bgtext">촬영에서 편집 공유까지 한 기기에서.</h1>
+          <h2 class="bgtext">촬영에서 편집 공유까지 한 기기에서.</h2>
           <div class="info">
             <div class="icon icon--center-stage"></div>
             <p>
@@ -318,7 +344,7 @@
     <section class="wireless">
       <div class="inner">
         <div class="facetime">
-          <h1 class="bgtext">선이 없다는 건 한계가 없다는 것.</h1>
+          <h2 class="bgtext">선이 없다는 건 한계가 없다는 것.</h2>
           <div class="figures">
             <figure>
               <img src="./images/wireless_facetime.jpg" alt="19명이 참여중인 FaceTime 영상 통화" />
@@ -363,7 +389,7 @@
     <!-- Accessories -->
     <section class="accessories">
       <div class="inner">
-        <h1 class="bgtext">손으로 쓰거나 키보드로 치거나.</h1>
+        <h2 class="bgtext">손으로 쓰거나 키보드로 치거나.</h2>
         <div class="figures">
           <figure>
             <img src="./images/accessories.jpg"
@@ -413,7 +439,7 @@
     <!-- iPadOS -->
     <section class="ipados">
       <div class="inner">
-        <h1 class="bgtext">iPadOS. 작업의 성공 방정식.</h1>
+        <h2 class="bgtext">iPadOS. 작업의 성공 방정식.</h2>
         <div class="infos infos--large">
           <div class="info">
             <p>
@@ -454,9 +480,7 @@
     <!-- Apps -->
     <section class="apps">
       <div class="inner">
-        <h1 class="bgtext">
-          열정을 살려줄 다양한 앱.
-        </h1>
+        <h2 class="bgtext">열정을 살려줄 다양한 앱.</h2>
         <div class="infos infos--large">
           <div class="info">
             <p>
@@ -508,9 +532,7 @@
     <!-- Privacy -->
     <section class="privacy">
       <div class="inner">
-        <h1 class="bgtext">
-          개인정보 보호 기능 내장.
-        </h1>
+        <h2 class="bgtext">개인정보 보호 기능 내장.</h2>
         <div class="infos infos--large">
           <div class="info">
             <p>
@@ -538,9 +560,7 @@
     <!-- Accessibility -->
     <div class="accessibility">
       <div class="inner">
-        <h1 class="bgtext">
-          모두를 위해 만들다.
-        </h1>
+        <h2 class="bgtext">모두를 위해 만들다.</h2>
         <div class="infos infos--large">
           <div class="info">
             <p>
@@ -567,7 +587,7 @@
         <div class="inner">
           <div>
             <img class="icon" src="./images/ar_icon.png" alt="AR Icon" />
-            <h1>AR로 새로워진 iPad 미리 보기.</h1>
+            <h2>AR로 새로워진 iPad 미리 보기.</h2>
             <p>iPhone 또는 iPad에서 이 페이지를 Safari로 열어보세요.</p>
           </div>
           <img class="image" src="./images/ar_ipad.jpg" alt="AR Image" />
@@ -581,7 +601,7 @@
         <div class="inner">
 
           <img class="icon" src="./images/environment_icon.png" alt="Environment Icon" />
-          <h1>환경</h1>
+          <h2>환경</h2>
           <p>
             Apple은 제품의 라이프 사이클 전반에 걸쳐 우리의 환경 발자국에 대한 책임을 다합니다.<br />
             모든 Apple 제품과 포장재에 100% 재활용 및 재생 가능 소재만이 사용되는 그날을 위해 헌신적인 노력을 기울이고 있습니다.<br />
@@ -597,7 +617,7 @@
     <section class="accessory-shop">
       <div class="whitebox whitebox--transparent">
         <div class="inner">
-          <h1>iPad의 능력을 키워주는<br />액세서리.</h1>
+          <h2>iPad의 능력을 키워주는<br />액세서리.</h2>
           <p>케이스, 커버, Apple Pencil, AirPods 등 다양한 액세서리를 만나보세요.</p>
           <a href="javascript:void(0)" class="link">iPad 액세서리 쇼핑하기</a>
           <img src="./images/ipad_accessories.jpg" alt="다양한 액세서리 이미지" />
@@ -609,10 +629,10 @@
     <section class="trade">
       <div class="whitebox">
         <div class="inner">
-          <h1>
+          <h2>
             사용하던 iPad를 보상 판매하면 새 모델<br />
             구매 시 쓸 수 있는 크레딧이.<sup><a href="#footnote*">*</a></sup>
-          </h1>
+          </h2>
           <p>
             Apple Trade In을 통해 보상 판매 대상 iPad를 새 iPad 구매 시 쓸 수 있는 크레딧으로 교환할 수 있습니다.<br />
             기기의 가치를 최대한 활용하는 것, 당신은 물론 지구에게도 좋은 일이죠.
@@ -626,7 +646,7 @@
     <div class="compare">
       <div class="whitebox">
         <div class="inner">
-          <h1>당신에게 맞는 iPad는?</h1>
+          <h2>당신에게 맞는 iPad는?</h2>
           <div class="items">
             <!-- JS처리 -->
           </div>

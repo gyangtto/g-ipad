@@ -3,12 +3,14 @@ html {
   --color-black: #000;
   --color-font: #1D1D1D;
   --color-font-darkgray: #6E6E6E;
+  --color-font-middlegray: #B7B7B7;
+  --color-font-lightgray: #F5F5F5;
   --color-link: #0071E3;
   --color-link-focus: #81B9F1;
   --color-border: #D2D2D2;
   --color-header: #3A3A3A;
   --color-section: #F5F5F5;
-  --color-shadow: rgba(0.0.0, .4);
+  --color-shadow: rgba(0,0,0, .4);
 }
 
 html.fixed {
@@ -280,7 +282,7 @@ a.link::after {
   margin-bottom: 20px;
 }
 
-.whitebox h1 {
+.whitebox h2 {
   font-size: 50px;
   font-weight: 600;
   line-height: 1.3;
@@ -301,9 +303,10 @@ a.link::after {
 header {
   --header-height: 44px;
   height: var(--header-height);
-  background-color: var(--color-font-darkgray);
+  background-color: var(--color-header);
   position: relative;
   z-index: 9;
+  transition: .4s;
 }
 
 header .inner {
@@ -320,6 +323,11 @@ header ul.menu>li {
   display: flex;
   position: relative;
   transition: .4s;
+}
+
+/* PC 일 때 햄버거 안보이게 */
+header ul.menu>li.memu-starter {
+  display: none;
 }
 
 header ul.menu>li>a {
@@ -541,7 +549,7 @@ header .search .autocompletes {
   background-color: var(--color-white);
 }
 
-header .search .autocompletes h3 {
+header .search .autocompletes h2 {
   margin-bottom: 12px;
   color: var(--color-font-darkgray);
   font-size: 12px;
@@ -563,13 +571,17 @@ header .search .autocompletes ul li:hover a {
 /* 검색창 하단 transition translate */
 header .search input,
 header .search .search-icon,
-header .search .autocompletes h3,
+header .search .autocompletes h2,
 header .search .autocompletes li {
   transition: .6s;
   transform: translate(100px, 0);
 }
 
-/* Header + .searching */
+header .clone-menu {
+  display: none;
+}
+
+/* Header + .searching Animation */
 header.searching ul.menu>li {
   transform: scale(.7);
   opacity: 0;
@@ -587,13 +599,233 @@ header.searching .search-wrap {
 /* 검색창 하단 transition translate */
 header.searching .search input,
 header.searching .search .search-icon,
-header.searching .search .autocompletes h3,
+header.searching .search .autocompletes h2,
 header.searching .search .autocompletes li {
   transition: .2s;
   transform: translate(0, 0);
 }
 
 /* Header + .searching 끝 */
+
+/* tablet 1000px */
+@media (max-width: 1000px) {
+  header .inner {
+    padding: 0 10px
+  }
+}
+
+/* mobile 740px */
+@media (max-width: 740px) {
+  header::before {
+    content: "";
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    width: 100%;
+    height: 0;
+    background-color: var(--color-header);
+    transition: .4s;
+  }
+
+  header ul.menu>li {
+    display: none;
+  }
+
+  header ul.menu>li.menu-starter,
+  header ul.menu>li.apple-logo,
+  header ul.menu>li.basket-starter {
+    display: flex;
+  }
+
+  header ul.menu>li.menu-starter span {
+    display: block;
+    width: 15px;
+    height: 1px;
+    margin-bottom: 6px;
+    background-color: var(--color-white);
+    transition: .4s;
+  }
+
+  header ul.menu>li.menu-starter span:last-child {
+    margin-bottom: 0;
+  }
+
+  header .search-wrap {
+    padding: 0 20px 14px;
+    border-bottom: 1px solid var(--color-header);
+    box-sizing: border-box;
+    top: var(--header-height);
+    /* 기본 상태에는 visibility: hidden; 상태 */
+    /* menuing 상태일 때 추가적으로 작성해줘야 함 */
+  }
+
+  header .search {
+    max-width: 590px;
+  }
+
+  header .shadow {
+    display: none;
+  }
+
+  header .search .textfield {
+    width: 100%;
+    border-radius: 10px;
+    background-color: #1D1D1D;
+    transition: .2s;
+  }
+
+  header .search .search-closer {
+    display: none;
+  }
+
+  header .search .search-canceler {
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transition: .4s;
+    color: var(--color-link);
+    visibility: hidden;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  header .search input,
+  header .search .search-icon,
+  header .search .autocompletes h2,
+  header .search .autocompletes li {
+    transform: translate(0, 0);
+  }
+
+  header .search .autocompletes {
+    top: 58px;
+    padding: 26px 0 20px;
+    background-color: transparent;
+    visibility: hidden;
+    opacity: 0;
+    transition: .3s;
+    transform: (0, -100px);
+  }
+
+  header .search .autocompletes ul li {
+    border-bottom: 1px solid var(--color-header);
+  }
+
+  header .search .autocompletes ul li:last-child {
+    border-bottom: none;
+  }
+
+  header .search .autocompletes ul li a {
+    padding: 16px 0 16px 16px;
+    color: var(--color-font-middlegray);
+  }
+
+  header .search .autocompletes ul li:hover a {
+    background-color: transparent;
+  }
+
+  header .clone-menu {
+    display: block;
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 103px;
+    left: 0;
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+    transition: .4s;
+    transform: translate(0, -50px);
+  }
+
+  header .clone-menu ul {
+    max-width: 590px;
+    margin: 4px auto;
+  }
+
+  header .clone-menu ul li {
+    border-bottom: 1px solid var(--color-header);
+  }
+
+  header .clone-menu ul li:last-child {
+    border-bottom: none;
+  }
+
+  header .clone-menu ul li a {
+    display: block;
+    padding: 16px 0;
+    font-size: 14px;
+    color: var(--color-font-middlegray);
+  }
+
+  header .clone-menu ul li:hover a {
+    color: var(--color-white);
+  }
+
+  /* 헤더가 menuing일 때 */
+  header.menuing {
+    background-color: var(--color-black);
+  }
+
+  header.menuing::before {
+    height: 100vh;
+    background-color: var(--color-black);
+  }
+
+  /* menuing 상태에서 장바구니 아이콘 사라지게 */
+  header.menuing ul.menu>li.basket-starter {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  header.menuing ul.menu>li.menu-starter span:first-child {
+    transform: translate(0, 3.5px) rotate(-45deg);
+  }
+
+  header.menuing ul.menu>li.menu-starter span:last-child {
+    transform: translate(0, -3.5px) rotate(45deg);
+  }
+
+  header.menuing .search-wrap {
+    visibility: visible;
+    opacity: 1;
+  }
+  header.menuing .clone-menu {
+    visibility: visible;
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+
+  /* 검색창을 누르면 헤더가 올라가면서 헤더 영역이 사라짐 */
+  header.menuing.searching--mobile {
+    transform: translate(0, -30px);
+  }
+
+  header.menuing.searching--mobile .search .textfield {
+    width: calc(100% - 55px);
+  }
+  
+  header.menuing.searching--mobile .search .autocompletes {
+    visibility: visible;
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+
+  header.menuing.searching--mobile .search .search-canceler {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  header.menuing.searching--mobile .clone-menu {
+    visibility: hidden;
+    opacity: 0;
+    transform: translate(0, 100px);
+  }
+}
+
 /* Header 끝 */
 
 /* Navigation */
@@ -663,7 +895,7 @@ main {
   padding-bottom: 110px;
 }
 
-.hero h1 {
+.hero h2 {
   position: absolute;
   width: 221px;
   height: 91px;
@@ -703,7 +935,7 @@ main {
 
 }
 
-.hero h2 {
+.hero h3 {
   width: 738px;
   height: 145px;
   margin: 0 auto;
@@ -800,10 +1032,10 @@ main {
 }
 
 /* Display > Notes */
-.display .notes h1 {
+.display .notes h2 {
   width: 630px;
   height: 370px;
-  background-image: url("../images/hero_headline.png");
+  background-image: url("../images/display_headline.png");
   transform: translate(104px, 0);
 }
 
@@ -850,7 +1082,7 @@ main {
   position: relative;
 }
 
-.camera .stage h1 {
+.camera .stage h2 {
   width: 650px;
   height: 450px;
   background-image: url("../images/camera_headline.png");
@@ -938,7 +1170,7 @@ main {
 }
 
 /* Wireless > Facetime */
-.wireless .facetime h1 {
+.wireless .facetime h2 {
   width: 730px;
   height: 330px;
   background-image: url("../images/wireless_headline.png");
@@ -978,7 +1210,7 @@ main {
   margin-top: 195px;
 }
 
-.accessories h1 {
+.accessories h2 {
   width: 550px;
   height: 343px;
   margin: 0 auto;
@@ -1021,7 +1253,7 @@ main {
   margin-top: 212px;
 }
 
-.ipados h1 {
+.ipados h2 {
   width: 530px;
   height: 400px;
   margin: 0 auto;
@@ -1081,7 +1313,7 @@ main {
   margin-top: 368px;
 }
 
-.apps h1 {
+.apps h2 {
   width: 500px;
   height: 264px;
   background-image: url("../images/apps_headline.png");
@@ -1163,7 +1395,7 @@ main {
   margin-top: 238px;
 }
 
-.privacy h1 {
+.privacy h2 {
   width: 482px;
   height: 237px;
   margin-left: auto;
@@ -1204,7 +1436,7 @@ main {
   margin-bottom: 170px;
 }
 
-.accessibility h1 {
+.accessibility h2 {
   width: 384px;
   height: 270px;
   background-image: url("../images/accessibility_headline.png");
@@ -1252,7 +1484,7 @@ main {
   margin-right: auto;
 }
 
-.environment h1 {
+.environment h2 {
   color: #03A10E;
 }
 
