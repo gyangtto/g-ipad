@@ -1,118 +1,83 @@
-// 당신에게 맞는 iPad는? 랜더링에 필요한 파일
-// 가지고 오는 자바스크립트 코드는 최상단에 작성 필요
-import ipads from '../data/ipads.js';
-import navigations from '../data/navigations.js';
+import ipads from '../data/ipads.js'
+import navigations from '../data/navigations.js'
 
-// 장바구니 시작
-const basketStarterEl = document.querySelector('header .basket-starter');
-// basket-starter 내 basket 찾아줘
-const basketEl = basketStarterEl.querySelector('.basket');
 
-basketStarterEl.addEventListener('click', function (event) {
-  // 버블현상 제거
-  event.stopPropagation();
-  // contains >> 클래스가 포함이 되어있지 않은지 확인
+// 장바구니!
+// 장바구니 관련 요소 찾기.
+const basketStarterEl = document.querySelector('header .basket-starter')
+const basketEl = basketStarterEl.querySelector('.basket')
+
+basketStarterEl.addEventListener('click', event => {
+  event.stopPropagation() // 이벤트 버블링 정지! - 버튼을 클릭했을 때 드롭다운 메뉴가 나타나야 함.
   if (basketEl.classList.contains('show')) {
-    hideBasket();
-    // basketEl.classList.remove('show');
-    // true > hide show 라는 클래스 제거 
+    hideBasket()
   } else {
-    showBasket();
-    // basketEl.classList.add('show');
-    // false > show 라는 클래스 추가 
+    showBasket()
   }
-});
+})
+basketEl.addEventListener('click', event => {
+  event.stopPropagation() // 이벤트 버블링 정지! - 드롭다운 메뉴 영역을 클릭했을 때 메뉴가 사라지지 않아야 함.
+})
+// 화면 전체를 클릭했을 때 메뉴가 사라짐.
+window.addEventListener('click', () => {
+  hideBasket()
+})
 
-// 드롭다운 메뉴를 클릭을 했을 때 사라지지 않도록 클릭 이벤트 추가
-basketEl.addEventListener('click', function (event) {
-  // showBasket ();
-  // 버블현상 제거
-  event.stopPropagation();
-});
-
-// 윈도우를 눌렀을 때 show 클래스 제거 필요
-// window.addEventListener('click', function () {
-//   hideBasket ();
-//   // basketEl.classList.remove('show');
-// });
-window.addEventListener('click', hideBasket);
-
-// 추상화 시킴
+// 특정 로직을 직관적인 함수 이름으로 묶음.
 function showBasket() {
-  basketEl.classList.add('show');
-};
-
+  basketEl.classList.add('show')
+}
 function hideBasket() {
-  basketEl.classList.remove('show');
-};
+  basketEl.classList.remove('show')
+}
 
-// 장바구니 끝
 
-// 검색
-const headerEl = document.querySelector('header');
-// 검색창 transition-delay 속성을 li들에 모두 적용해야 함 그래서 querySelectorAll 로 찾기
-// [] 배열 형식 > [...] "..." 추가 시 전개 연산자를 사용하는 얕은 복사
-// const headerMenuEls = headerEl.querySelectorAll('ul.menu > li');
-const headerMenuEls = [...headerEl.querySelectorAll('ul.menu > li')];
-const searchWrapEl = headerEl.querySelector('.search-wrap');
-const searchStarterEl = headerEl.querySelector('.search-starter');
-const searchCloserEl = searchWrapEl.querySelector('.search-closer');
-const searchShadowEl = searchWrapEl.querySelector('.shadow');
-const searchInputEl = searchWrapEl.querySelector('input');
-// 서치 안에 있는 딜레이를 해야하는 요소들
-const searchDelayEls = [...searchWrapEl.querySelectorAll('li')];
+// 헤더 검색!
+// 헤더 검색 관련 요소 찾기.
+const headerEl = document.querySelector('header')
+const headerMenuEls = [...headerEl.querySelectorAll('ul.menu > li')]
+const searchWrapEl = headerEl.querySelector('.search-wrap')
+const searchStarterEl = headerEl.querySelector('.search-starter')
+const searchCloserEl = searchWrapEl.querySelector('.search-closer')
+const searchShadowEl = searchWrapEl.querySelector('.shadow')
+const searchInputEl = searchWrapEl.querySelector('input')
+const searchDelayEls = [...searchWrapEl.querySelectorAll('li')]
+const duration = .4 // 초(seconds) 단위, 시간을 변수에 저장해서 사용하면 쉽게 관리 용이
 
-searchStarterEl.addEventListener('click', showSearch);
-searchCloserEl.addEventListener('click', hideSearch);
-searchShadowEl.addEventListener('click', hideSearch);
+searchStarterEl.addEventListener('click', showSearch)
+searchCloserEl.addEventListener('click', event => {
+  event.stopPropagation() // 데스크탑 레이아웃에서 클릭 이벤트가 버블링되어, 모바일 레이아웃에서 searchTextFieldEl가 클릭된 상태로 변하는 것을 방지
+  hideSearch()
+})
+searchShadowEl.addEventListener('click', hideSearch)
 
 function showSearch() {
-  headerEl.classList.add('searching');
-  // 문서의 최상위요소에서 HTML에 fixed 클래스 추가
-  document.documentElement.classList.add('fixed');
-  headerMenuEls.reverse().forEach(function (el, index) {
-    // foreach 라는 메소드로 el 이라는 매개변수에 반복 처리
-    // index를 사용하여 revers 순서로 transition-delay 처리
-    el.style.transitionDelay = index * .4 / headerMenuEls.length + 's'
-    // headerMenuEls.length >> 배열 대이터의 아이템 갯수
-  });
-
-  // index를 사용하여 순서로 transition-delay 처리해줘
-  searchDelayEls.forEach(function (el, index) {
-    el.style.transitionDelay = index * .4 / searchDelayEls.length + 's'
-  });
-
-  // 애니메이션이 완료되고 나서 input에 포커스 처리  
-  // transition을 .6s 로 맞췄기 때문에 setTimeout 처리 시 600 시간 추가 필요
-  setTimeout(function () {
-    searchInputEl.focus();
+  headerEl.classList.add('searching')
+  stopScroll()
+  headerMenuEls.reverse().forEach((el, index) => {
+    el.style.transitionDelay = `${index * duration / headerMenuEls.length}s` // 순서 * 지연 시간 / 애니메이션할 요소 개수
+  })
+  // .reverse() 사용하지 않고 원래 순서대로 반복 처리.
+  searchDelayEls.forEach((el, index) => {
+    el.style.transitionDelay = `${index * duration / searchDelayEls.length}s`
+  })
+  // 검색 인풋 요소가 나타난 후 동작!
+  setTimeout(() => {
+    searchInputEl.focus()
   }, 600);
-};
-
+}
 function hideSearch() {
-  headerEl.classList.remove('searching');
-  // 검색 창 열릴 때 스크롤이 작동되지 않도록 요청한 거 지워줘
-  document.documentElement.classList.remove('fixed');
-
-  headerMenuEls.reverse().forEach(function (el, index) {
-    // foreach 라는 메소드로 el 이라는 매개변수에 반복 처리
-    // index를 사용하여 revers의 reverse 순서로 transition-delay 처리
-    el.style.transitionDelay = index * .4 / headerMenuEls.length + 's'
-    // headerMenuEls.length >> 배열 대이터의 아이템 갯수
-  });
-
-  // index를 사용하여 reverse 순서로 transition-delay 처리
-  searchDelayEls.reverse().forEach(function (el, index) {
-    el.style.transitionDelay = index * .4 / searchDelayEls.length + 's'
-  });
-
-  // reverse()를 통해 뒤집은 경우 한번 더 뒤집어 줘야지 정상적으로 돌아옴
-  searchDelayEls.reverse();
-
-  // input 내 입력 후 닫을 경우 초기화 되도록 설정
-  searchInputEl.value = ''
-};
-
+  headerEl.classList.remove('searching')
+  playScroll()
+  headerMenuEls.reverse().forEach((el, index) => {
+    el.style.transitionDelay = `${index * duration / headerMenuEls.length}s`
+  })
+  searchDelayEls.reverse().forEach((el, index) => {
+    el.style.transitionDelay = `${index * duration / searchDelayEls.length}s`
+  })
+  searchDelayEls.reverse() // 나타날 때 원래의 순서대로 처리해야 하기 때문에 다시 뒤집어서 순서 돌려놓기!
+  searchInputEl.value = '' // 입력값 초기화
+}
 function playScroll() {
   // documentElement is <html>
   document.documentElement.classList.remove('fixed')
@@ -178,112 +143,107 @@ function hideNavMenu() {
   navEl.classList.remove('menuing')
 }
 
-// 요소의 가시성 관찰 (화면에 보일 때)
-const io = new IntersectionObserver(function (entries) {
-  entries.forEach(function (entry) {
+
+// 요소의 가시성 관찰 로직!
+const io = new IntersectionObserver(entries => {
+  // entries는 `io.observe(el)`로 등록된 모든 관찰 대상 배열.
+  entries.forEach(entry => {
+    // 사라질 때.
     if (!entry.isIntersecting) {
       return
     }
-    entry.target.classList.add('show');
+    entry.target.classList.add('show')
   })
-});
+})
+// 관찰할 요소들 검색
+const infoEls = document.querySelectorAll('.info')
+// 관찰 시작!
+infoEls.forEach(el => io.observe(el))
 
-const infoEls = document.querySelectorAll('.info');
-infoEls.forEach(function (el) {
-  io.observe(el);
-});
 
-// 비디오 재생
-const video = document.querySelector('.stage video');
-const playBtn = document.querySelector('.stage .controller--play');
-const pauseBtn = document.querySelector('.stage .controller--pause');
+// 비디오 재생!
+const video = document.querySelector('.stage video')
+const playBtn = document.querySelector('.stage .controller--play')
+const pauseBtn = document.querySelector('.stage .controller--pause')
 
-playBtn.addEventListener('click', function () {
-  video.play();
-  playBtn.classList.add('hide');
-  pauseBtn.classList.remove('hide');
-});
+// Google 자동 재생 정책 확인! - https://developer.chrome.com/blog/autoplay/#audiovideo-elements
+// video.play()
+//   .then(played)
+//   .catch(paused)
 
-pauseBtn.addEventListener('click', function () {
-  video.pause();
-  playBtn.classList.remove('hide');
-  pauseBtn.classList.add('hide');
-});
+playBtn.addEventListener('click', () => {
+  video.play()
+  playBtn.classList.add('hide')
+  pauseBtn.classList.remove('hide')
+})
+pauseBtn.addEventListener('click', () => {
+  video.pause()
+  playBtn.classList.remove('hide')
+  pauseBtn.classList.add('hide')
+})
 
-// 데이터 기반으로 출력
-// 당신에게 맞는 iPad는? 랜더링
-const itmesEl = document.querySelector('.compare .items')
-// 배열 데이터 forEach 함수 사용 
-ipads.forEach(function (ipad) {
-  // ipads를 반복하니까 단수 ipad 작성
-  const itemEl = document.createElement('div');
-  // createElement 메소드 요소를 자바스크립트를 통해 생성하는 스크립트
-  itemEl.classList.add('item');
 
-  // 각각의 li 아이템을 반복해서 생성해놔야 함
-  let colorList = '';
-  ipad.colors.forEach(function (color){
+// '당신에게 맞는 iPad는?' 랜더링!
+const itemsEl = document.querySelector('section.compare .items')
+ipads.forEach(ipad => {
+  const itemEl = document.createElement('div')
+  itemEl.classList.add('item')
+
+  let colorList = ''
+  ipad.colors.forEach(color => {
     colorList += `<li style="background-color: ${color};"></li>`
-  });
+  })
 
-  // textContent 사용 시 문자로 출력해냄
-  // innerHTML 삽입한 문자를 HTML 구조로 처리해 줌
-  // Comment tagged template 확장 프로그램을 통해 모듈을 통한 HTML 내용 추가 삽입
-  // template literal 방식으로 작성 ``
-  // ${} 보간 방법
+  // VS Code 확장 프로그램 - Comment tagged templates
   itemEl.innerHTML = /* html */ `
-  <div class="thumbnail">
-  <img src="${ipad.thumbnail}" alt="${ipad.name}" />
-  </div>
+    <div class="thumbnail">
+      <img src="${ipad.thumbnail}" alt="${ipad.name}" />
+    </div>
+    <ul class="colors">
+      ${colorList}
+    </ul>
+    <h3 class="name">${ipad.name}</h3>
+    <p class="tagline">${ipad.tagline}</p>
+    <p class="price">₩${ipad.price.toLocaleString('en-US')}부터</p>
+    <button class="btn">구입하기</button>
+    <a href="${ipad.url}" class="link">더 알아보기</a>
+  `
 
-  <ul class="colors">
-  ${colorList}  </ul>
-  <h3 class="name">${ipad.name}</h3>
-  <p class="tagline">${ipad.tagline}</p>
-  <p class="price">₩${ipad.price.toLocaleString('en-US')}부터</p>
-  <button class="btn">구입하기</button>
-  <a href="${ipad.url}" class="link">더 알아보기</a>
-  `;
-
-
-  /* 실제 요소에 넣어줘야 함 */
-  itmesEl.append(itemEl);
-});
+  itemsEl.append(itemEl)
+})
 
 
-// Navigations 랜더링
-const navigationsEl = document.querySelector('footer .navigations');
-navigations.forEach(function (nav) {
-  const mapEl = document.createElement('div');
-  mapEl.classList.add('map');
-  
-  let mapList='';
-  nav.maps.forEach(function (map) {
-    mapList += /* html */ `
-    <li>
+// 푸터 내비게이션 맵 랜더링!
+const navigationsEl = document.querySelector('footer .navigations')
+navigations.forEach(nav => {
+  const mapEl = document.createElement('div')
+  mapEl.classList.add('map')
+
+  let mapList = ''
+  nav.maps.forEach(map => {
+    mapList += /* html */ `<li>
       <a href="${map.url}">${map.name}</a>
-    </li>
-    `
-  });
+    </li>`
+  })
 
   mapEl.innerHTML = /* html */ `
     <h3>
       <span class="text">${nav.title}</span>
+      <span class="icon">+</span>
     </h3>
     <ul>
       ${mapList}
     </ul>
   `
 
-navigationsEl.append(mapEl);
+  navigationsEl.append(mapEl)
+})
 
-});
 
+// 올해 연도를 적용!
+const thisYearEl = document.querySelector('.this-year')
+thisYearEl.textContent = new Date().getFullYear()
 
-// .this year
-const thisYearEl = document.querySelector('span.this-year');
-thisYearEl.textContet = new Date().getFullYear;
-// 생성자 함수 호출
 
 // 푸터 내비게이션 맵 아코디언
 const mapEls = [...document.querySelectorAll('footer .navigations .map')]
